@@ -1,25 +1,50 @@
-# MPC-Hello
+# mpc-hello (client <> client)
 
-This is a template repository designed to be the hello-world of [mpc-framework](https://github.com/voltrevo/mpc-framework). The repository contains three different examples:
+This is a template repository designed to be the hello-world of
+[mpc-framework](https://github.com/voltrevo/mpc-framework).
 
-1. [**Client-Client**](/client-client): A web application built using [Vite](https://vite.dev/) that demonstrates peer-to-peer (p2p) computation between two clients. Communication is facilitated via [`rtc-pair-socket`](https://github.com/voltrevo/rtc-pair-socket) for direct client-to-client interaction.
-  - Looking for NextJS? Take a look at [npm create @mpc-cli](https://github.com/cedoor/mpc-cli)
-2. [**Client-Server**](/client-server): A web application, also built with [Vite](https://vite.dev/), that illustrates how a client and a server can collaboratively run a secure computation. Communication is established using WebSockets.
-3. [**Server-Server**](/server-server): An example showcasing how two servers can perform a secure MPC computation. This setup uses WebSockets for communication between the servers.
-4. [**Deno-Deno**](/deno-deno): An example showcasing how two Deno servers can perform a secure MPC computation. This setup uses WebSockets for communication between the servers.
+It uses [summon](https://github.com/voltrevo/summon) for circuit generation and
+[emp-wasm-backend](https://github.com/voltrevo/emp-wasm-backend) for secure 2PC.
 
-## Getting Started
+It's a minimal web app where users can make 1-to-1 connections with each other
+and compute the larger of two numbers.
 
-After creating your repository based on this template, clone it and navigate to the example you want to run:
+Hosted on github pages: https://voltrevo.github.io/mpc-hello/.
 
-```bash
-git clone https://github.com/voltrevo/mpc-hello.git
-cd mpc-hello/<example-folder>
+- 250 sloc
+- Simple frontend
+- P2P end-to-end encrypted communication
+- Circuit code included via ordinary project files
+
+Below are other examples of mpc-hello applications you may want to explore:
+
+- [**Client-Server**](../client-server)
+- [**Server-Server**](../server-server)
+- [**MPC-Hello with Next.js**](../next-js)
+
+## Running Locally
+
+```sh
 npm install
+npm run dev
 ```
 
-Read the README file of the example for more instructions on how to run the app.
+## Updating the Percentage Display
+
+The percentage display works using a constant `TOTAL_BYTES` and comparing this
+to the number of bytes sent and received:
+
+```ts
+const TOTAL_BYTES = 248476;
+```
+
+When you change the circuit, this number needs to be changed to calculate the
+correct percentages. To find the new value, just run your app with dev tools
+open. An error message will be displayed containing the new value.
 
 ## License
 
-This is a template repository. You are free to use it as a starting point for your own work without restriction. You may modify it, distribute it, and apply your own licensing terms to your derived work as you see fit. This software is provided "AS IS" without warranty of any kind, as described by the MIT license.
+This is a template repository. You are free to use it as a starting point for
+your own work without restriction. You may modify it, distribute it, and apply
+your own licensing terms to your derived work as you see fit. This software is
+provided "AS IS" without warranty of any kind, as described by the MIT license.
