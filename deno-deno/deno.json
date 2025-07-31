@@ -1,0 +1,13 @@
+{
+  "tasks": {
+    "host": "deno run --allow-net=127.0.0.1:8080 --allow-read=src/circuit src/host.ts",
+    "join": "deno run --allow-net=127.0.0.1:8080 --allow-read=src/circuit src/join.ts"
+  },
+  "imports": {
+    "@std/assert": "jsr:@std/assert@^1.0.12",
+    "@std/http": "jsr:@std/http@^1.0.14",
+    "emp-wasm-engine": "npm:emp-wasm-engine@^0.5.3",
+    "mpc-framework": "npm:mpc-framework@^0.3.0",
+    "summon-ts": "npm:summon-ts@^0.6.1"
+  }
+}
