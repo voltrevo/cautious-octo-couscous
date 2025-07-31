@@ -68,21 +68,24 @@ async function handleJoinSubmit() {
 }
 
 async function handleSubmitNumber() {
-  const numberInput = document.getElementById(
-    'number-input',
-  ) as HTMLInputElement;
-  myNumber = parseInt(numberInput.value, 10);
+  const checkboxes = step3.querySelectorAll('input');
+  const prefs = [...checkboxes].map(checkbox => checkbox.checked);
 
-  if (myNumber === null || isNaN(myNumber)) {
-    // eslint-disable-next-line no-alert
-    alert('Please enter a valid number.');
-    return;
-  }
+  // const numberInput = document.getElementById(
+  //   'number-input',
+  // ) as HTMLInputElement;
+  // myNumber = parseInt(numberInput.value, 10);
+
+  // if (myNumber === null || isNaN(myNumber)) {
+  //   // eslint-disable-next-line no-alert
+  //   alert('Please enter a valid number.');
+  //   return;
+  // }
 
   step3.classList.add('hidden');
   step4.classList.remove('hidden');
 
-  const result = await app.mpcLargest(myNumber, progress => {
+  const result = await app.mpcLargest(prefs, progress => {
     const percentage = Math.floor(progress * 100);
 
     // This allows it to start showing % when the MPC is actually started.
@@ -93,7 +96,7 @@ async function handleSubmitNumber() {
 
   step4.classList.add('hidden');
   step5.classList.remove('hidden');
-  resultValueElement.textContent = `Your number is ${result}!`;
+  resultValueElement.textContent = result;
 }
 
 hostBtn.addEventListener('click', handleHost);

@@ -35,7 +35,7 @@ export default class App {
   }
 
   async mpcLargest(
-    value: number,
+    prefs: boolean[],
     onProgress?: (progress: number) => void,
   ): Promise<string> {
     const { party, socket } = this;
@@ -46,7 +46,13 @@ export default class App {
     const TOTAL_BYTES = 247331;
     let currentBytes = 0;
 
-    const input = party === 'alice' ? { a: value } : { b: value };
+    const input: Record<string, boolean> = {};
+
+    for (let i = 0; i < 7; i++) {
+      input[`${party}Weekday${i}`] = prefs[i];
+    }
+
+    // const input = party === 'alice' ? { a: value } : { b: value };
     const otherParty = party === 'alice' ? 'bob' : 'alice';
 
     const protocol = await generateProtocol();
@@ -91,16 +97,18 @@ export default class App {
     if (
       output === null ||
       typeof output !== 'object' ||
-      typeof output.main !== 'number'
+      typeof output.result !== 'number'
     ) {
       throw new Error('Unexpected output');
     }
 
-    return output.main === 0
-      ? 'equal'
-      : (output.main === 1 && party === 'alice') ||
-          (output.main === 2 && party === 'bob')
-        ? 'larger'
-        : 'smaller';
+    const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const weekdayResult = weekdays[output.result];
+
+    if (weekdayResult === undefined) {
+      return 'No match 🥲';
+    }
+
+    return `${weekdayResult}!`;
   }
 }

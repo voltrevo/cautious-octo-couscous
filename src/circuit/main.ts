@@ -1,21 +1,34 @@
-// This obviously doesn't need to be a separate file, but it's here to
-// demonstrate that you can split up your summon code like this.
-import isEqual from './isEqual.ts';
-import isLarger from './isLarger.ts';
-
 export default (io: Summon.IO) => {
-  const a = io.input('alice', 'a', summon.number());
-  const b = io.input('bob', 'b', summon.number());
+  let alicePrefs: boolean[] = [];
+  let bobPrefs: boolean[] = [];
 
-  let result;
-
-  if (isEqual(a, b)) {
-    result = 0;
-  } else if (isLarger(a, b)) {
-    result = 1;
-  } else {
-    result = 2;
+  for (let i = 0; i < 7; i++) {
+    alicePrefs.push(io.input('alice', `aliceWeekday${i}`, summon.bool()));
+    bobPrefs.push(io.input('bob', `bobWeekday${i}`, summon.bool()));
   }
 
-  io.outputPublic('main', result);
+  let result = 255;
+
+  for (let i = 6; i >= 0; i--) {
+    if (alicePrefs[i] && bobPrefs[i]) {
+      result = i;
+    }
+  }
+
+  io.outputPublic('result', result);
+
+  // const a = io.input('alice', 'a', summon.number());
+  // const b = io.input('bob', 'b', summon.number());
+
+  // let result;
+
+  // if (isEqual(a, b)) {
+  //   result = 0;
+  // } else if (isLarger(a, b)) {
+  //   result = 1;
+  // } else {
+  //   result = 2;
+  // }
+
+  // io.outputPublic('main', result);
 };
